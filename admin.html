@@ -45,5 +45,12 @@
 
     loadGroups();
   </script>
+  <script>
+const password = prompt("Enter admin password:");
+if(password !== "1234") {  // Badilisha password
+  alert("Access denied");
+  window.location.href = "index.html";  // Redirect user
+}
+  </script>
 </body>
 </html>
