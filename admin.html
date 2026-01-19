@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="glow">Admin Panel</h1>
+    <div id="list"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAMolvHjWUTujbI8Y8nb4_EM72tq_ILC3Y",
+      authDomain: "whatsapp-groups-cf531.firebaseapp.com",
+      projectId: "whatsapp-groups-cf531",
+      storageBucket: "whatsapp-groups-cf531.appspot.com",
+      messagingSenderId: "185377581193",
+      appId: "1:185377581193:web:40b0026f895410aeeabe58"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const list = document.getElementById("list");
+
+    async function loadGroups() {
+      const snapshot = await getDocs(collection(db, "groups"));
+      list.innerHTML = "";
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        list.innerHTML += `
+          <div class="group-card">
+            <p><b>${d.group}</b></p>
+            <p>${d.name} - ${d.phone}</p>
+            <p><a href="${d.link}" target="_blank">Join WhatsApp</a></p>
+          </div>
+        `;
+      });
+    }
+
+    loadGroups();
+  </script>
+</body>
+</html>
